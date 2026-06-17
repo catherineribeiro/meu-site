@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Byte Burger — Cardápio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> 
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- BOTÃO DE TEMA -->
+  <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">
+    <span class="theme-icon">🌙</span>
+    <span id="themeLabel">Modo Claro</span>
+  </button>
+
+  <!-- CABEÇALHO -->
+  <header>
+    <div class="header-stripe"></div>
+    <div class="header-bg-text">BURGER</div>
+    <div class="header-inner">
+      <div class="logo-circle">BB</div>
+      <div class="header-text">
+        <h1>BYTE <span>BURGER</span></h1>
+        <p>🔥 Sabor de outro nível — feito com carne de verdade</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- BARRA DE FILTRO -->
+  <nav class="filter-bar">
+    <div class="filter-inner">
+      <button class="filter-btn active" onclick="filter('all', this)">Todos</button>
+      <button class="filter-btn" onclick="filter('lanches', this)">🍔 Lanches</button>
+      <button class="filter-btn" onclick="filter('bebidas', this)">🥤 Bebidas</button>
+      <button class="filter-btn" onclick="filter('sobremesas', this)">🍰 Sobremesas</button>
+    </div>
+  </nav>
+  
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main>
+
+    <!-- ── LANCHES ── -->
+    <section class="menu-section" id="sec-lanches" data-cat="lanches">
+      <div class="section-header">
+        <div class="section-icon">🍔</div>
+        <h2 class="section-title">Lanches</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="product-grid">
+
+        <div class="card">
+          <img class="card-img"
+            src="img/classicburger.jfif"
+            alt="Classic Burger" loading="lazy">
+          <div class="card-body">
+            <div class="card-name">Classic Burger</div>
+            <div class="card-desc">Blend bovino 160g, queijo cheddar, alface americana, tomate e molho especial da casa no pão brioche.</div>
+            <div class="card-footer">
+              <span class="card-price">R$ 27,90</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-img"
+            src="img/baconbrguer.jfif"
+            alt="Bacon Supreme" loading="lazy">
+          <div class="card-body">
+            <div class="card-name">Bacon Supreme</div>
+            <div class="card-desc">Blend bovino, bacon crocante, cheddar derretido, cebola caramelizada e maionese defumada.</div>
+            <div class="card-footer">
+              <span class="card-price">R$ 32,90</span>
+              <span class="badge-new">🔥 Top</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-img spicy"
+            src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=600&q=80"
+            alt="Spicy Code" loading="lazy">
+          <div class="card-body">
+            <div class="card-name">Spicy Code</div>
+            <div class="card-desc">Blend bovino, pimenta jalapeño, queijo pepper jack, alface, tomate, picles e maionese picante artesanal.</div>
+            <div class="card-footer">
+              <span class="card-price">R$ 29,90</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-img"
+            src="img/vegano.png"
+            alt="Veggie Bit" loading="lazy">
+          <div class="card-body">
+            <div class="card-name">Veggie Bit</div>
+            <div class="card-desc">Hambúrguer de grão-de-bico, queijo de cabra, rúcula, tomate seco e maionese de ervas frescas.</div>
+            <div class="card-footer">
+              <span class="card-price">R$ 29,90</span>
+              <span class="badge-new">Vegano</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-img"
+            src="img/frango.png"
+            alt="Chicken Debug" loading="lazy">
+          <div class="card-body">
+            <div class="card-name">Chicken Honey Mustard</div>
+            <div class="card-desc">Frango grelhado ou empanado, queijo suíço, alface, tomate e molho honey mustard.</div>
+            <div class="card-footer">
+              <span class="card-price">R$ 26,90</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-img"
+            src="img/doublesteak.jfif"
+            alt="Double Stack" loading="lazy">
+          <div class="card-body">
+            <div class="card-name">Double Stack</div>
+            <div class="card-desc">Dois blends bovinos 90g cada, queijo cheddar duplo, picles, mostarda e ketchup artesanal.</div>
+            <div class="card-footer">
+              <span class="card-price">R$ 38,90</span>
+              <span class="badge-new">Novo</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── BEBIDAS ── -->
+    <section class="menu-section" id="sec-bebidas" data-cat="bebidas">
+      <div class="section-header">
+        <div class="section-icon">🥤</div>
+        <h2 class="section-title">Bebidas</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="product-grid">
+
+        <div class="card">
+          <img class="card-img"
+            src="img/refri.png"
+            alt="Refrigerante Lata" loading="lazy">
+          <div class="card-body">
+            <div class="card-name">Refrigerante Lata</div>
+            <div class="card-desc">Coca-Cola, Guaraná Antarctica, Sprite ou Fanta — lata 350ml gelada.</div>
+            <div class="card-footer">
+              <span class="card-price">R$ 7,00</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-img suco"
+            src="https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=600&q=80"
+            alt="Suco Natural" loading="lazy">
+          <div class="card-body">
+            <div class="card-name">Suco Natural</div>
+            <div class="card-desc">Laranja, maracujá, melancia ou limão. Feito na hora, sem conservantes.</div>
+            <div class="card-footer">
+              <span class="card-price">R$ 10,00</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-img"
+            src="img/cervejaartesan.png"
+            alt="Cerveja Artesanal" loading="lazy">
+          <div class="card-body">
+            <div class="card-name">Cerveja Artesanal</div>
+            <div class="card-desc">IPA, Pale Ale ou Stout — garrafa 500ml da nossa seleção artesanal local.</div>
+            <div class="card-footer">
+              <span class="card-price">R$ 18,00</span>
+              <span class="badge-new">Craft</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-img"
+            src="img/agua.png"
+            alt="Água Mineral" loading="lazy">
+          <div class="card-body">
+            <div class="card-name">Água Mineral</div>
+            <div class="card-desc">Água mineral natural com ou sem gás — garrafa 500ml.</div>
+            <div class="card-footer">
+              <span class="card-price">R$ 5,00</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── SOBREMESAS ── -->
+    <section class="menu-section" id="sec-sobremesas" data-cat="sobremesas">
+      <div class="section-header">
+        <div class="section-icon">🍰</div>
+        <h2 class="section-title">Sobremesas</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="product-grid">
+
+        <div class="card">
+          <img class="card-img milkshake"
+            src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&q=80"
+            alt="Milkshake Clássico" loading="lazy">
+          <div class="card-body">
+            <div class="card-name">Milkshake Gourmet</div>
+            <div class="card-desc">Sorvete cremoso batido com leite — sabores: ovomaltine,ninho com morango ou oreo. 500ml.</div>
+            <div class="card-footer">
+              <span class="card-price">R$ 18,90</span>
+              <span class="badge-new">🔥 Top</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-img brownie"
+            src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=600&q=80"
+            alt="Brownie Quente" loading="lazy">
+          <div class="card-body">
+            <div class="card-name">Brownie Quente</div>
+            <div class="card-desc">Brownie de chocolate belga servido quente com sorvete de creme e calda de chocolate.</div>
+            <div class="card-footer">
+              <span class="card-price">R$ 22,90</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <img class="card-img donuts"
+            src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=80" class="card-img donut"
+            alt="Donuts do BB" loading="lazy">
+          <div class="card-body">
+            <div class="card-name">Donuts do BB</div>
+            <div class="card-desc">Trio de donuts artesanais — cobertura de chocolate, morango e leite condensado com granulado.</div>
+            <div class="card-footer">
+              <span class="card-price">R$ 16,90</span>
+              <span class="badge-new">Novo</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- RODAPÉ -->
+  <footer>
+    <div class="footer-inner">
+
+      <div class="footer-col">
+        <h3>📍 Localização</h3>
+        <p>Riacho Fundo II, 503</p>
+        <p>Brasília — DF</p>
+        <p>CEP: 71888-000</p>
+      </div>
+
+      <div class="footer-col">
+        <h3>🕐 Horários</h3>
+        <p>Segunda a Sexta: 18h – 23h</p>
+        <p>Sábados e Domingos: 18h – 00h</p>
+        
+      </div>
+
+      <div class="footer-col">
+        <h3>📲 Contato</h3>
+        <a href="https://wa.me/5561999999999">WhatsApp: (61) 9 9999-8787</a>
+        <a href="mailto:oi@byteburger.com.br">oi@byteburger.com.br</a>
+      </div>
+
+      <div class="footer-col">
+        <h3>🌐 Redes Sociais</h3>
+        <div class="social-links">
+      <a href="https://www.instagram.com/byteburger.oficial" target="_blank" rel="noopener noreferrer" title="Instagram">
+        <i class="fa-brands fa-instagram"></i>
+      </a>   
+      <a href="https://www.tiktok.com/@byteburger.oficial" target="_blank" rel="noopener noreferrer" title="TikTok">
+        <i class="fa-brands fa-tiktok"></i>
+      </a>
+      <a href="https://www.facebook.com/seu-perfil" target="_blank" rel="noopener noreferrer" title="Facebook">
+        <i class="fa-brands fa-facebook"></i>
+      </a>
+      <a href="https://wa.me/5500999999999" target="_blank" rel="noopener noreferrer" title="WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+      </a>
+      </div>
+      <p class="social-handle">@byteburger.oficial</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2026 Byte Burger — Todos os direitos reservados · Feito com ❤️ 
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

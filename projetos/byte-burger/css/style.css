@@ -1,0 +1,471 @@
+/* ============================================
+   BYTE BURGER — style.css
+   Web Design | Instituto Federal Brasília
+   ============================================ */
+
+/* ── VARIÁVEIS DE TEMA ── */
+:root {
+  --bg: #0d0d0d;
+  --bg2: #161616;
+  --card: #1c1c1c;
+  --border: #2a2a2a;
+  --accent: #f5a623;
+  --accent2: #e8340a;
+  --text: #f0ece4;
+  --muted: #888888;
+  --price: #f5a623;
+  --badge: #e8340a;
+}
+
+[data-theme="light"] {
+  --bg: #faf8f4;
+  --bg2: #f0ece4;
+  --card: #ffffff;
+  --border: #e0d8cc;
+  --text: #1a1a1a;
+  --muted: #666666;
+  --price: #c47e00;
+  --badge: #e8340a;
+}
+
+/* ── RESET E BASE ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  transition: background 0.35s, color 0.35s;
+}
+
+/* ── BOTÃO DE TEMA (DARK/LIGHT MODE) ── */
+.theme-btn {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 999;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 40px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.theme-btn:hover {
+  border-color: var(--accent);
+}
+
+.theme-icon {
+  font-size: 1rem;
+}
+
+/* ── CABEÇALHO (HEADER) ── */
+header {
+  position: relative;
+  background: #0d0d0d;
+  overflow: hidden;
+}
+
+.header-stripe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--accent2) 0%, var(--accent) 100%);
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 24px 36px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  position: relative;
+  z-index: 2;
+}
+
+.logo-circle {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--accent2), var(--accent));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  color: #ffffff;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 4px rgba(245, 166, 35, 0.2);
+  letter-spacing: 1px;
+}
+
+.header-text h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.8rem, 7vw, 5rem);
+  color: #ffffff;
+  line-height: 1;
+  letter-spacing: 2px;
+}
+
+.header-text h1 span {
+  color: var(--accent);
+}
+
+.header-text p {
+  font-size: 0.95rem;
+  color: #aaaaaa;
+  margin-top: 6px;
+  letter-spacing: 0.5px;
+}
+
+.header-bg-text {
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 14vw;
+  color: rgba(255, 255, 255, 0.03);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+/* ── BARRA DE FILTRO ── */
+.filter-bar {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.filter-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.filter-inner::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-btn {
+  padding: 14px 22px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+  transition: all 0.25s;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* ── CONTEÚDO PRINCIPAL ── */
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+/* ── SEÇÕES DO CARDÁPIO ── */
+.menu-section {
+  margin-bottom: 64px;
+  animation: fadeUp 0.5s ease both;
+}
+
+.menu-section:nth-child(2) { animation-delay: 0.1s; }
+.menu-section:nth-child(3) { animation-delay: 0.2s; }
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.section-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, var(--accent2), var(--accent));
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.section-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── GRID DE PRODUTOS ── */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 20px;
+}
+
+/* ── CARD DE PRODUTO ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+  animation: fadeUp 0.4s ease both;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(255,140,0,.25);
+  border-color: var(--accent);
+}
+
+.card-img-placeholder {
+  width: 100%;
+  height: 180px;
+  background: linear-gradient(135deg, var(--bg2), var(--border));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+}
+
+/* Para imagens reais: substitua .card-img-placeholder por <img class="card-img"> */
+
+.card-img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  display: block;
+}
+
+.milkshake{
+    object-position: 50% 45%;
+}
+
+.suco{
+  object-position: 50% 25%;
+}
+
+.brownie{
+  object-position: 50% 70%;
+}
+
+.donuts{
+  object-position: 50% 60%;
+}
+.card-body {
+  padding: 18px 20px 20px;
+}
+
+.card-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.card-desc {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.55;
+  margin-bottom: 14px;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-price {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  color: var(--price);
+  letter-spacing: 1px;
+}
+
+.badge-new {
+  background: var(--badge);
+  color: #ffffff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* ── RODAPÉ (FOOTER) ── */
+footer {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: 48px 24px;
+}
+
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 36px;
+}
+
+.footer-col h3 {
+  font-family: sans-serif;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--accent);
+  margin-bottom: 12px;
+}
+
+.footer-col p,
+.footer-col a {
+  font-size: 0.87rem;
+  color: var(--muted);
+  line-height: 1.7;
+  display: block;
+  text-decoration: none;
+}
+
+.footer-col a:hover {
+  color: var(--accent);
+}
+
+.social-links {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.social-links a {
+  width: 36px;
+  height: 36px;
+  background: var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+/* Efeito ao passar o mouse */
+.social-links a:hover {
+    transform: scale(1.15);
+}
+
+/* Cores oficiais */
+.fa-instagram { color: #E4405F; }
+.fa-tiktok { color: #010101; } /* Ou #00f2fe para o efeito azul/rosa do TikTok */
+.fa-facebook { color: #1877F2; }
+.fa-whatsapp { color: #25D366; }
+
+.social-handle {
+  margin-top: 12px;
+}
+
+.footer-bottom {
+  max-width: 1100px;
+  margin: 32px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+/* ── UTILITÁRIO ── */
+.hidden {
+  display: none !important;
+}
+
+/* ── ANIMAÇÕES ── */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── RESPONSIVIDADE ── */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .header-inner {
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 20px 28px;
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .theme-btn {
+    top: 12px;
+    right: 12px;
+    padding: 7px 12px;
+    font-size: 0.75rem;
+  }
+
+  .filter-btn {
+    padding: 12px 16px;
+    font-size: 0.78rem;
+  }
+}

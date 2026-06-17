@@ -3,46 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Projetos de Catherine Ribeiro — portfólio, cinema, cardápio digital, formulários PHP e calculadora." />
+  <meta property="og:title" content="Projetos — Catherine Ribeiro" />
+  <meta property="og:description" content="Galeria de projetos desenvolvidos no curso de TDS." />
+  <meta property="og:type" content="website" />
   <title>Projetos — Catherine Ribeiro</title>
+  <link rel="icon" href="assets/imagens/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/estilo.css" />
-  <style>
-    .filtros {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 32px;
-    }
-    .btn-filtro {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      color: var(--text-secondary);
-      padding: 6px 16px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-family: var(--font-display);
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn-filtro:hover,
-    .btn-filtro.ativo {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: var(--accent-dim);
-    }
-  </style>
 </head>
 <body>
+  <a class="skip-link" href="#conteudo-principal">Pular para o conteúdo</a>
   <div class="page-wrapper">
 
-    <!-- HEADER -->
-    <header>
-        <div class="container">
-        <img src="assets/imagens/perfil.jpeg" alt="Foto de Catherine" class="logoft">
-        <a class="logo" href="index.html"><span>Catherine Ribeiro</span></a>
-        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu">
+    <header data-partial="header">
+      <div class="container">
+        <div class="header-brand">
+          <img src="assets/imagens/perfil.jpeg" alt="Foto de Catherine Ribeiro" class="logoft" width="50" height="50" />
+          <a class="logo" href="index.html"><span>Catherine Ribeiro</span></a>
+        </div>
+        <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-menu">
           <span></span><span></span><span></span>
         </button>
-        <nav>
+        <nav aria-label="Navegação principal">
           <ul id="nav-menu">
             <li><a href="index.html">Início</a></li>
             <li><a href="projetos.html">Projetos</a></li>
@@ -54,23 +39,20 @@
       </div>
     </header>
 
-    <!-- MAIN -->
-    <main>
+    <main id="conteudo-principal">
       <div class="container">
 
         <p class="section-label">// portfólio</p>
         <h1 class="section-title">Meus Projetos</h1>
 
-        <!-- FILTROS -->
         <div class="filtros">
-          <button class="btn-filtro ativo" data-filtro="todos">Todos</button>
-          <button class="btn-filtro" data-filtro="HTML">HTML</button>
-          <button class="btn-filtro" data-filtro="CSS">CSS</button>
-          <button class="btn-filtro" data-filtro="JavaScript">JavaScript</button>
-          <button class="btn-filtro" data-filtro="PHP">PHP</button>
+          <button class="btn-filtro ativo" type="button" data-filtro="todos">Todos</button>
+          <button class="btn-filtro" type="button" data-filtro="HTML">HTML</button>
+          <button class="btn-filtro" type="button" data-filtro="CSS">CSS</button>
+          <button class="btn-filtro" type="button" data-filtro="JavaScript">JavaScript</button>
+          <button class="btn-filtro" type="button" data-filtro="PHP">PHP</button>
         </div>
 
-        <!-- GRID DE PROJETOS -->
         <div class="projetos-grid">
 
           <article class="projeto-card" data-tecnologias="HTML CSS JavaScript">
@@ -85,13 +67,14 @@
               <span class="tag">CSS</span>
               <span class="tag">JavaScript</span>
             </div>
+            <a href="index.html" class="btn btn-outline btn-projeto">Ver projeto →</a>
           </article>
 
           <article class="projeto-card" data-tecnologias="HTML CSS JavaScript PHP">
             <p class="projeto-disciplina">Web Design</p>
             <h3>Página de Cinema Fictício</h3>
             <p>
-              Página de cinema feito com HTML, CSS e JavaScript, com o objetivo de exibir os filmes em cartaz de forma organizada e atrativa para os usuários.
+              Página de cinema feita com HTML, CSS e JavaScript, com o objetivo de exibir os filmes em cartaz de forma organizada e atrativa para os usuários.
             </p>
             <div class="tags">
               <span class="tag">JavaScript</span>
@@ -99,7 +82,7 @@
               <span class="tag">CSS</span>
               <span class="tag">PHP</span>
             </div>
-            <a href="http://localhost/cine_modificado/index.php" target="_blank" class="btn btn-outline" style="margin-top:16px; font-size:0.8rem; padding:8px 16px;">Ver projeto →</a>
+            <a href="projetos/cine-alfa/index.html" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-projeto" title="Requer XAMPP local">Ver projeto →</a>
           </article>
 
           <article class="projeto-card" data-tecnologias="HTML CSS JavaScript">
@@ -113,7 +96,7 @@
               <span class="tag">HTML</span>
               <span class="tag">CSS</span>
             </div>
-            <a href="http://localhost/byte-burger/index.html" target="_blank" class="btn btn-outline" style="margin-top:16px; font-size:0.8rem; padding:8px 16px;">Ver projeto →</a>
+            <a href="projetos/byte-burger/index.html" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-projeto" title="Requer XAMPP local">Ver projeto →</a>
           </article>
 
           <article class="projeto-card" data-tecnologias="PHP">
@@ -125,7 +108,7 @@
             <div class="tags">
               <span class="tag">PHP</span>
             </div>
-            <a href="COLOCARLINK" target="_blank" class="btn btn-outline" style="margin-top:16px; font-size:0.8rem; padding:8px 16px;">Ver projeto →</a>
+            <a href="http://localhost/duaspaginas/pagina1.php" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-projeto" title="Requer XAMPP local">Ver projeto →</a>
           </article>
 
           <article class="projeto-card" data-tecnologias="HTML CSS JavaScript">
@@ -139,15 +122,17 @@
               <span class="tag">CSS</span>
               <span class="tag">JavaScript</span>
             </div>
-            <a href="http://localhost/calculadora/questao01.html" target="_blank" class="btn btn-outline" style="margin-top:16px; font-size:0.8rem; padding:8px 16px;">Ver projeto →</a>
+            <a href="projetos/calculadora/questao01.html" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-projeto" title="Requer XAMPP local">Ver projeto →</a>
           </article>
 
         </div>
+
+        <p id="filtro-vazio" class="filtro-vazio" role="status">Nenhum projeto encontrado para este filtro.</p>
+
       </div>
     </main>
 
-    <!-- FOOTER -->
-    <footer>
+    <footer data-partial="footer">
       <div class="container">
         <p>© <span class="ano-atual"></span> Catherine Ribeiro — Projeto Integrador TDSV1</p>
       </div>

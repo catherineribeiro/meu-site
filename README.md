@@ -8,18 +8,22 @@ Tecnologia em Desenvolvimento de Sistemas.
 
 ```
 meu-site/
-├── index.html        → Página inicial com posts em destaque
-├── projetos.html     → Galeria de projetos
-├── curriculo.html    → Linha do tempo com formação e habilidades
-├── blog.html         → Listagem completa de posts
-├── contato.html      → Formulário de contato e especificações de hardware
+├── index.html              → Página inicial com posts em destaque
+├── projetos.html           → Galeria de projetos com filtros
+├── curriculo.html          → Linha do tempo com formação e habilidades
+├── blog.html               → Listagem completa de posts
+├── contato.html            → Formulário de contato e especificações de hardware
 └── assets/
     ├── css/
     │   └── estilo.css
     ├── js/
     │   └── app.js
+    ├── partials/
+    │   ├── header.html     → Cabeçalho reutilizável
+    │   └── footer.html     → Rodapé reutilizável
     └── imagens/
-        └── (foto-perfil.jpg, ícones...)
+        ├── perfil.jpeg
+        └── favicon.svg
 ```
 
 ## 🛠 Tecnologias utilizadas
@@ -53,7 +57,11 @@ meu-site/
 
 ## 🌐 Acesso
 
-[Ver site publicado no GitHub Pages](https://seu-usuario.github.io/meu-site)
+**Local (XAMPP):** `http://localhost/blogCatherineRibeiro/blogCatherineRibeiro/`
+
+**Publicado:** [https://catherineribeiro.github.io/meu-site/](https://catherineribeiro.github.io/meu-site/)
+
+> Projetos com PHP (cinema, formulários) exigem ambiente local com XAMPP.
 
 ---
 

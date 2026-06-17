@@ -3,21 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Blog de Catherine Ribeiro — artigos sobre TDS, lógica de programação e desenvolvimento web." />
+  <meta property="og:title" content="Blog — Catherine Ribeiro" />
+  <meta property="og:description" content="Artigos sobre desenvolvimento de sistemas, lógica de programação e web." />
+  <meta property="og:type" content="website" />
   <title>Blog — Catherine Ribeiro</title>
+  <link rel="icon" href="assets/imagens/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/estilo.css" />
 </head>
 <body>
+  <a class="skip-link" href="#conteudo-principal">Pular para o conteúdo</a>
   <div class="page-wrapper">
 
-    <!-- HEADER -->
-    <header>
+    <header data-partial="header">
       <div class="container">
-      <img src="assets/imagens/perfil.jpeg" alt="Foto de Catherine"  class="logoft">
-        <a class="logo" href="index.html"><span>Catherine Ribeiro</span></a>
-        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menu">
+        <div class="header-brand">
+          <img src="assets/imagens/perfil.jpeg" alt="Foto de Catherine Ribeiro" class="logoft" width="50" height="50" />
+          <a class="logo" href="index.html"><span>Catherine Ribeiro</span></a>
+        </div>
+        <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="nav-menu">
           <span></span><span></span><span></span>
         </button>
-        <nav>
+        <nav aria-label="Navegação principal">
           <ul id="nav-menu">
             <li><a href="index.html">Início</a></li>
             <li><a href="projetos.html">Projetos</a></li>
@@ -29,8 +39,7 @@
       </div>
     </header>
 
-    <!-- MAIN -->
-    <main>
+    <main id="conteudo-principal">
       <div class="container">
 
         <p class="section-label">// artigos</p>
@@ -38,42 +47,39 @@
 
         <div class="blog-lista">
 
-          <!-- POST 1 -->
-          <article class="blog-post-card">
+          <article class="blog-post-card" id="post-jornada">
             <p class="post-meta">07/06/2026 · Técnico em Desenvolvimento de Sistemas</p>
-            <h2><a href="#">Minha Jornada no Desenvolvimento de Sistemas</a></h2>
+            <h2><a href="#post-jornada">Minha Jornada no Desenvolvimento de Sistemas</a></h2>
             <p>
               Atualmente estou cursando Técnico em Desenvolvimento de Sistemas, uma experiência que tem ampliado meus conhecimentos em tecnologia e programação. Durante o curso, venho aprendendo conceitos fundamentais como lógica de programação, desenvolvimento web, banco de dados e análise de sistemas.
             </p>
             <p>
-              Cada novo conteúdo representa uma oportunidade de desenvolver habilidades práticas e resolver problemas de forma criativa. 
+              Cada novo conteúdo representa uma oportunidade de desenvolver habilidades práticas e resolver problemas de forma criativa.
               Além do conhecimento técnico, o curso também fortalece competências como trabalho em equipe, organização e raciocínio lógico.
             </p>
             <p>
-            Meu objetivo é continuar evoluindo profissionalmente e aplicar esses conhecimentos em projetos reais, 
-            contribuindo para soluções inovadoras e eficientes.
+              Meu objetivo é continuar evoluindo profissionalmente e aplicar esses conhecimentos em projetos reais,
+              contribuindo para soluções inovadoras e eficientes.
             </p>
           </article>
 
-          <!-- POST 2 -->
-          <article class="blog-post-card">
+          <article class="blog-post-card" id="post-logica">
             <p class="post-meta">09/06/2026 · Lógica de Programação</p>
-            <h2><a href="#">A Importância da Lógica de Programação</a></h2>
+            <h2><a href="#post-logica">A Importância da Lógica de Programação</a></h2>
             <p>
               A lógica de programação é um dos pilares para quem deseja atuar na área de tecnologia. Ela consiste na capacidade de analisar problemas e criar sequências de instruções capazes de solucioná-los de forma organizada.
             </p>
             <p>
-            Durante meus estudos, aprendi que antes de escrever códigos é fundamental entender o problema e planejar a solução. Esse processo ajuda a desenvolver o pensamento lógico e facilita a aprendizagem de diferentes linguagens de programação.  
+              Durante meus estudos, aprendi que antes de escrever códigos é fundamental entender o problema e planejar a solução. Esse processo ajuda a desenvolver o pensamento lógico e facilita a aprendizagem de diferentes linguagens de programação.
             </p>
             <p>
-            Com uma boa base em lógica, torna-se mais fácil criar programas eficientes, identificar erros e desenvolver soluções cada vez mais completas.  
+              Com uma boa base em lógica, torna-se mais fácil criar programas eficientes, identificar erros e desenvolver soluções cada vez mais completas.
             </p>
           </article>
 
-          <!-- POST 3 -->
-          <article class="blog-post-card">
+          <article class="blog-post-card" id="post-web">
             <p class="post-meta">13/06/2026 · Aprendendo Desenvolvimento Web</p>
-            <h2><a href="#">Dicas para quem está começando em programação</a></h2>
+            <h2><a href="#post-web">Dicas para quem está começando em programação</a></h2>
             <p>
               Uma das áreas que mais despertou meu interesse durante o curso foi o desenvolvimento web. Utilizando tecnologias como HTML, CSS e JavaScript, é possível criar páginas modernas, interativas e responsivas.
             </p>
@@ -81,18 +87,16 @@
               O HTML é responsável pela estrutura do conteúdo, o CSS pela aparência visual e o JavaScript pela interatividade das páginas. A combinação dessas tecnologias permite desenvolver projetos que proporcionam uma melhor experiência para os usuários.
             </p>
             <p>
-             A cada projeto desenvolvido, adquiro mais experiência prática e aprimoro minhas habilidades na construção de aplicações para a web.
+              A cada projeto desenvolvido, adquiro mais experiência prática e aprimoro minhas habilidades na construção de aplicações para a web.
             </p>
           </article>
 
         </div>
-        <!-- Adicione mais posts acima seguindo o mesmo modelo de article.blog-post-card -->
 
       </div>
     </main>
 
-    <!-- FOOTER -->
-    <footer>
+    <footer data-partial="footer">
       <div class="container">
         <p>© <span class="ano-atual"></span> Catherine Ribeiro — Projeto Integrador TDSV1</p>
       </div>

@@ -3,9 +3,23 @@
 // Projeto Integrador — TDSV1
 // =============================================
 
-// -----------------------------------------------
-// 1. MENU HAMBURGUER (mobile)
-// -----------------------------------------------
+function obterPaginaAtual() {
+  const pagina = window.location.pathname.split('/').pop() || 'index.html';
+  return pagina.includes('.') ? pagina : 'index.html';
+}
+
+function fecharMenuMobile() {
+  const toggle = document.getElementById('menu-toggle');
+  const navMenu = document.getElementById('nav-menu');
+
+  if (!toggle || !navMenu) return;
+
+  navMenu.classList.remove('aberto');
+  toggle.classList.remove('aberto');
+  toggle.setAttribute('aria-expanded', 'false');
+  toggle.setAttribute('aria-label', 'Abrir menu');
+}
+
 function iniciarMenuMobile() {
   const toggle = document.getElementById('menu-toggle');
   const navMenu = document.getElementById('nav-menu');
@@ -13,35 +27,35 @@ function iniciarMenuMobile() {
   if (!toggle || !navMenu) return;
 
   toggle.addEventListener('click', function () {
-    navMenu.classList.toggle('aberto');
+    const aberto = navMenu.classList.toggle('aberto');
+    toggle.classList.toggle('aberto', aberto);
+    toggle.setAttribute('aria-expanded', aberto ? 'true' : 'false');
+    toggle.setAttribute('aria-label', aberto ? 'Fechar menu' : 'Abrir menu');
   });
 
-  // Fecha o menu ao clicar em um link
   navMenu.querySelectorAll('a').forEach(function (link) {
-    link.addEventListener('click', function () {
-      navMenu.classList.remove('aberto');
-    });
+    link.addEventListener('click', fecharMenuMobile);
+  });
+
+  document.addEventListener('keydown', function (evento) {
+    if (evento.key === 'Escape') {
+      fecharMenuMobile();
+    }
   });
 }
 
-// -----------------------------------------------
-// 2. MARCAR LINK ATIVO NO NAV
-// -----------------------------------------------
 function marcarNavAtivo() {
-  const paginaAtual = window.location.pathname.split('/').pop() || 'index.html';
+  const paginaAtual = obterPaginaAtual();
   const links = document.querySelectorAll('nav a');
 
   links.forEach(function (link) {
     const href = link.getAttribute('href');
-    if (href === paginaAtual || (paginaAtual === '' && href === 'index.html')) {
+    if (href === paginaAtual || (paginaAtual === 'index.html' && href === './')) {
       link.classList.add('ativo');
     }
   });
 }
 
-// -----------------------------------------------
-// 3. VALIDAÇÃO DO FORMULÁRIO DE CONTATO
-// -----------------------------------------------
 function validarCampo(campo, msgErro, condicao) {
   const elementoErro = document.getElementById('erro-' + campo.id);
 
@@ -52,31 +66,29 @@ function validarCampo(campo, msgErro, condicao) {
       elementoErro.classList.add('visivel');
     }
     return false;
-  } else {
-    campo.classList.remove('erro');
-    if (elementoErro) {
-      elementoErro.classList.remove('visivel');
-    }
-    return true;
   }
+
+  campo.classList.remove('erro');
+  if (elementoErro) {
+    elementoErro.classList.remove('visivel');
+  }
+  return true;
 }
 
 function validarEmail(email) {
-  // Expressão regular para validar formato de e-mail
-  var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return regex.test(email);
 }
 
 function iniciarFormulario() {
-  var form = document.getElementById('form-contato');
+  const form = document.getElementById('form-contato');
   if (!form) return;
 
-  var campoNome = document.getElementById('nome');
-  var campoEmail = document.getElementById('email');
-  var campoMensagem = document.getElementById('mensagem');
-  var feedback = document.getElementById('form-feedback');
+  const campoNome = document.getElementById('nome');
+  const campoEmail = document.getElementById('email');
+  const campoMensagem = document.getElementById('mensagem');
+  const feedback = document.getElementById('form-feedback');
 
-  // Validação em tempo real ao sair do campo
   if (campoNome) {
     campoNome.addEventListener('blur', function () {
       validarCampo(campoNome, 'Por favor, informe seu nome.', campoNome.value.trim().length >= 2);
@@ -95,16 +107,14 @@ function iniciarFormulario() {
     });
   }
 
-  // Envio do formulário
   form.addEventListener('submit', function (evento) {
-    evento.preventDefault(); // impede o envio padrão
+    evento.preventDefault();
 
-    var nomeValido = validarCampo(campoNome, 'Por favor, informe seu nome.', campoNome.value.trim().length >= 2);
-    var emailValido = validarCampo(campoEmail, 'Informe um e-mail válido.', validarEmail(campoEmail.value.trim()));
-    var mensagemValida = validarCampo(campoMensagem, 'A mensagem deve ter pelo menos 10 caracteres.', campoMensagem.value.trim().length >= 10);
+    const nomeValido = validarCampo(campoNome, 'Por favor, informe seu nome.', campoNome.value.trim().length >= 2);
+    const emailValido = validarCampo(campoEmail, 'Informe um e-mail válido.', validarEmail(campoEmail.value.trim()));
+    const mensagemValida = validarCampo(campoMensagem, 'A mensagem deve ter pelo menos 10 caracteres.', campoMensagem.value.trim().length >= 10);
 
     if (nomeValido && emailValido && mensagemValida) {
-      // Todos os campos válidos
       feedback.textContent = '✓ Mensagem enviada com sucesso! Entrarei em contato em breve.';
       feedback.className = 'form-feedback sucesso';
       form.reset();
@@ -115,54 +125,75 @@ function iniciarFormulario() {
   });
 }
 
-// -----------------------------------------------
-// 4. FILTRO DE PROJETOS POR TECNOLOGIA
-// -----------------------------------------------
+function aplicarFiltroProjetos(filtro, botoes, cards, mensagemVazia) {
+  let visiveis = 0;
+
+  botoes.forEach(function (botao) {
+    botao.classList.toggle('ativo', botao.getAttribute('data-filtro') === filtro);
+  });
+
+  cards.forEach(function (card) {
+    const tecnologias = card.getAttribute('data-tecnologias');
+    const mostrar = filtro === 'todos' || tecnologias.includes(filtro);
+    card.classList.toggle('oculto', !mostrar);
+    if (mostrar) visiveis += 1;
+  });
+
+  if (mensagemVazia) {
+    mensagemVazia.classList.toggle('visivel', visiveis === 0);
+  }
+}
+
 function iniciarFiltroProjetos() {
-  var botoesFilro = document.querySelectorAll('[data-filtro]');
-  var cards = document.querySelectorAll('[data-tecnologias]');
+  const botoesFiltro = document.querySelectorAll('[data-filtro]');
+  const cards = document.querySelectorAll('[data-tecnologias]');
+  const mensagemVazia = document.getElementById('filtro-vazio');
 
-  if (botoesFilro.length === 0) return;
+  if (botoesFiltro.length === 0) return;
 
-  botoesFilro.forEach(function (botao) {
+  botoesFiltro.forEach(function (botao) {
     botao.addEventListener('click', function () {
-      var filtro = botao.getAttribute('data-filtro');
-
-      // Atualiza botão ativo
-      botoesFilro.forEach(function (b) { b.classList.remove('ativo'); });
-      botao.classList.add('ativo');
-
-      // Mostra/esconde cards
-      cards.forEach(function (card) {
-        var tecnologias = card.getAttribute('data-tecnologias');
-        if (filtro === 'todos' || tecnologias.includes(filtro)) {
-          card.style.display = '';
-        } else {
-          card.style.display = 'none';
-        }
-      });
+      const filtro = botao.getAttribute('data-filtro');
+      aplicarFiltroProjetos(filtro, botoesFiltro, cards, mensagemVazia);
     });
   });
 }
 
-// -----------------------------------------------
-// 5. ANO DINÂMICO NO FOOTER
-// -----------------------------------------------
 function atualizarAnoFooter() {
-  var elementos = document.querySelectorAll('.ano-atual');
-  var anoAtual = new Date().getFullYear();
+  const elementos = document.querySelectorAll('.ano-atual');
+  const anoAtual = new Date().getFullYear();
   elementos.forEach(function (el) {
     el.textContent = anoAtual;
   });
 }
 
-// -----------------------------------------------
-// INICIALIZAÇÃO — roda quando a página carrega
-// -----------------------------------------------
-document.addEventListener('DOMContentLoaded', function () {
+async function carregarPartial(elemento) {
+  const nome = elemento.getAttribute('data-partial');
+  if (!nome) return;
+
+  try {
+    const resposta = await fetch('assets/partials/' + nome + '.html');
+    if (!resposta.ok) return;
+    elemento.outerHTML = await resposta.text();
+  } catch (erro) {
+    console.warn('Partial não carregado:', nome, erro);
+  }
+}
+
+async function carregarPartials() {
+  const elementos = document.querySelectorAll('[data-partial]');
+  await Promise.all(Array.from(elementos).map(carregarPartial));
+}
+
+function iniciarAplicacao() {
   iniciarMenuMobile();
   marcarNavAtivo();
   iniciarFormulario();
   iniciarFiltroProjetos();
   atualizarAnoFooter();
+}
+
+document.addEventListener('DOMContentLoaded', async function () {
+  await carregarPartials();
+  iniciarAplicacao();
 });
