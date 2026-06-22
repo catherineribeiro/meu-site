@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pegada Consciente — Calculadora de Impacto Ambiental</title>
+<meta name="description" content="Descubra seu nível de consumo consciente e receba dicas práticas para reduzir seu impacto ambiental. Projeto de conscientização — Meta 12.8 da ONU.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#0E1410;
+    --bg-soft:#141C16;
+    --bg-card:#182019;
+    --line:#2A352C;
+    --sand:#F2EDE4;
+    --sand-dim:#A9B0A4;
+    --leaf:#7CB66B;
+    --leaf-dim:#5C8C4E;
+    --amber:#E8A33D;
+    --water:#3D7A8C;
+    --water-bright:#5FA7BC;
+    --danger:#C9694B;
+
+    --serif: 'Fraunces', serif;
+    --sans: 'Space Grotesk', sans-serif;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg);
+    color:var(--sand);
+    font-family:var(--sans);
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+
+  a{color:inherit;}
+
+  /* ---------- Background texture: subtle topographic lines ---------- */
+  .bg-texture{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    opacity:0.5;
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(124,182,107,0.07), transparent 40%),
+      radial-gradient(circle at 85% 75%, rgba(61,122,140,0.08), transparent 45%);
+  }
+
+  .wrap{position:relative; z-index:1;}
+
+  /* ---------- Nav ---------- */
+  header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:28px clamp(20px,6vw,72px);
+    border-bottom:1px solid var(--line);
+  }
+  .brand{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:1.15rem;
+    letter-spacing:0.01em;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .brand .dot{
+    width:9px;height:9px;border-radius:50%;
+    background:var(--leaf);
+    box-shadow:0 0 12px var(--leaf);
+  }
+  nav a{
+    font-size:0.85rem;
+    text-decoration:none;
+    color:var(--sand-dim);
+    margin-left:28px;
+    transition:color .2s;
+  }
+  nav a:hover{color:var(--leaf);}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:clamp(60px,10vh,120px) clamp(20px,6vw,72px) 60px;
+    max-width:1100px;
+  }
+  .eyebrow{
+    font-size:0.78rem;
+    text-transform:uppercase;
+    letter-spacing:0.14em;
+    color:var(--leaf);
+    font-weight:600;
+    margin-bottom:18px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:'';
+    width:24px;height:1px;
+    background:var(--leaf);
+  }
+  h1{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(2.4rem, 6vw, 4.4rem);
+    line-height:1.04;
+    letter-spacing:-0.01em;
+    max-width:16ch;
+  }
+  h1 em{
+    font-style:italic;
+    font-weight:500;
+    color:var(--leaf);
+  }
+  .hero p.lead{
+    margin-top:24px;
+    font-size:1.1rem;
+    color:var(--sand-dim);
+    max-width:50ch;
+  }
+  .hero-meta{
+    display:flex;
+    gap:40px;
+    margin-top:48px;
+    flex-wrap:wrap;
+  }
+  .meta-item{
+    border-left:1px solid var(--line);
+    padding-left:16px;
+  }
+  .meta-item .num{
+    font-family:var(--serif);
+    font-size:1.6rem;
+    color:var(--amber);
+    display:block;
+  }
+  .meta-item .label{
+    font-size:0.78rem;
+    color:var(--sand-dim);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+  }
+
+  /* ---------- Section shared ---------- */
+  section{
+    padding:80px clamp(20px,6vw,72px);
+    max-width:1100px;
+    margin:0 auto;
+  }
+  .section-head{
+    margin-bottom:48px;
+  }
+  .section-head .eyebrow{margin-bottom:14px;}
+  h2{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(1.8rem,4vw,2.6rem);
+  }
+  .section-head p{
+    color:var(--sand-dim);
+    max-width:60ch;
+    margin-top:14px;
+  }
+
+  /* ---------- Calculator ---------- */
+  #calculadora{
+    border-top:1px solid var(--line);
+  }
+  .calc-grid{
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:48px;
+    align-items:start;
+  }
+  @media (max-width:860px){
+    .calc-grid{grid-template-columns:1fr;}
+  }
+
+  .calc-card{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:clamp(24px,4vw,40px);
+  }
+
+  .question{
+    margin-bottom:32px;
+  }
+  .question:last-child{margin-bottom:0;}
+  .question .q-label{
+    font-size:0.78rem;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:var(--sand-dim);
+    display:block;
+    margin-bottom:12px;
+  }
+  .question .q-text{
+    font-family:var(--serif);
+    font-size:1.15rem;
+    font-weight:500;
+    margin-bottom:16px;
+  }
+
+  .options{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(150px,1fr));
+    gap:10px;
+  }
+  .opt{
+    background:var(--bg-soft);
+    border:1px solid var(--line);
+    color:var(--sand);
+    padding:12px 16px;
+    border-radius:9px;
+    font-family:var(--sans);
+    font-size:0.92rem;
+    cursor:pointer;
+    text-align:left;
+    transition:border-color .18s, background .18s, transform .12s;
+  }
+  .opt:hover{
+    border-color:var(--leaf-dim);
+    transform:translateY(-1px);
+  }
+  .opt.selected{
+    background:rgba(124,182,107,0.12);
+    border-color:var(--leaf);
+    color:var(--leaf);
+    font-weight:600;
+  }
+  .opt:focus-visible{
+    outline:2px solid var(--leaf);
+    outline-offset:2px;
+  }
+
+  /* ---------- Result panel (sticky) ---------- */
+  .result-panel{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:clamp(24px,4vw,36px);
+    position:sticky;
+    top:24px;
+    text-align:center;
+  }
+  .gauge-wrap{
+    position:relative;
+    width:200px;
+    height:200px;
+    margin:0 auto 20px;
+  }
+  .gauge-wrap svg{transform:rotate(-90deg);}
+  .gauge-bg{
+    fill:none;
+    stroke:var(--line);
+    stroke-width:14;
+  }
+  .gauge-fill{
+    fill:none;
+    stroke-width:14;
+    stroke-linecap:round;
+    transition:stroke-dasharray 0.8s cubic-bezier(.4,0,.2,1), stroke 0.8s;
+  }
+  .gauge-center{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+  }
+  .gauge-center .score{
+    font-family:var(--serif);
+    font-size:2.6rem;
+    font-weight:600;
+    line-height:1;
+  }
+  .gauge-center .score-label{
+    font-size:0.72rem;
+    color:var(--sand-dim);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin-top:4px;
+  }
+  .result-title{
+    font-family:var(--serif);
+    font-size:1.3rem;
+    font-weight:600;
+    margin-bottom:10px;
+  }
+  .result-desc{
+    color:var(--sand-dim);
+    font-size:0.92rem;
+    margin-bottom:24px;
+  }
+  .progress-note{
+    font-size:0.8rem;
+    color:var(--sand-dim);
+    margin-top:18px;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+  }
+
+  .tips-list{
+    text-align:left;
+    margin-top:20px;
+    display:none;
+  }
+  .tips-list.visible{display:block;}
+  .tips-list li{
+    list-style:none;
+    padding:10px 0 10px 26px;
+    border-top:1px solid var(--line);
+    position:relative;
+    font-size:0.88rem;
+    color:var(--sand);
+  }
+  .tips-list li::before{
+    content:'→';
+    position:absolute;
+    left:0;
+    color:var(--amber);
+  }
+
+  /* ---------- Topics grid ---------- */
+  #aprenda{
+    border-top:1px solid var(--line);
+  }
+  .topics-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:14px;
+    overflow:hidden;
+  }
+  .topic-card{
+    background:var(--bg-card);
+    padding:28px;
+    cursor:pointer;
+    transition:background .2s;
+  }
+  .topic-card:hover{background:var(--bg-soft);}
+  .topic-icon{
+    width:38px;height:38px;
+    margin-bottom:16px;
+  }
+  .topic-card h3{
+    font-family:var(--serif);
+    font-size:1.1rem;
+    font-weight:600;
+    margin-bottom:8px;
+  }
+  .topic-card p{
+    font-size:0.86rem;
+    color:var(--sand-dim);
+  }
+  .topic-card .topic-detail{
+    font-size:0.86rem;
+    color:var(--sand);
+    margin-top:14px;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+    display:none;
+  }
+  .topic-card.open .topic-detail{display:block;}
+  .topic-card .toggle-hint{
+    font-size:0.74rem;
+    color:var(--leaf);
+    margin-top:12px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+  }
+
+  /* ---------- ODS / About section ---------- */
+  #sobre{
+    border-top:1px solid var(--line);
+  }
+  .about-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:48px;
+  }
+  @media (max-width:860px){
+    .about-grid{grid-template-columns:1fr;}
+  }
+  .ods-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:100px;
+    padding:8px 16px 8px 8px;
+    font-size:0.82rem;
+    margin-bottom:24px;
+  }
+  .ods-badge .num{
+    background:var(--amber);
+    color:var(--bg);
+    font-weight:700;
+    border-radius:50%;
+    width:26px;height:26px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:0.8rem;
+  }
+  .about-grid p{
+    color:var(--sand-dim);
+    margin-bottom:16px;
+  }
+  .about-grid strong{color:var(--sand);}
+
+  blockquote{
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:1.2rem;
+    color:var(--sand);
+    border-left:2px solid var(--leaf);
+    padding-left:20px;
+    margin:24px 0;
+    line-height:1.5;
+  }
+
+  /* ---------- CTA ---------- */
+  #acao{
+    text-align:center;
+    border-top:1px solid var(--line);
+  }
+  #acao h2{margin-bottom:16px;}
+  #acao p{
+    color:var(--sand-dim);
+    max-width:50ch;
+    margin:0 auto 32px;
+  }
+  .cta-buttons{
+    display:flex;
+    gap:16px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .btn{
+    font-family:var(--sans);
+    font-weight:600;
+    font-size:0.92rem;
+    padding:14px 28px;
+    border-radius:9px;
+    cursor:pointer;
+    border:1px solid transparent;
+    transition:transform .15s, opacity .15s;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn-primary{
+    background:var(--leaf);
+    color:#0E1410;
+  }
+  .btn-secondary{
+    background:transparent;
+    border-color:var(--line);
+    color:var(--sand);
+  }
+
+  footer{
+    text-align:center;
+    padding:36px 20px;
+    color:var(--sand-dim);
+    font-size:0.8rem;
+    border-top:1px solid var(--line);
+  }
+
+  /* fade-in on scroll */
+  .fade-up{
+    opacity:0;
+    transform:translateY(16px);
+    transition:opacity .6s ease, transform .6s ease;
+  }
+  .fade-up.in{
+    opacity:1;
+    transform:translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-texture"></div>
+
+<div class="wrap">
+
+  <header>
+    <div class="brand"><span class="dot"></span>Pegada Consciente</div>
+    <nav>
+      <a href="#calculadora">Calculadora</a>
+      <a href="#aprenda">Aprenda</a>
+      <a href="#sobre">Sobre o projeto</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="eyebrow">Conscientização ambiental · ODS 12.8</div>
+    <h1>Quanto pesa o seu <em>consumo</em> no planeta?</h1>
+    <p class="lead">Responda 6 perguntas rápidas sobre seus hábitos de consumo, energia, água e descarte de resíduos — e receba um diagnóstico real com dicas práticas para reduzir seu impacto.</p>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <span class="num">6</span>
+        <span class="label">Perguntas</span>
+      </div>
+      <div class="meta-item">
+        <span class="num">4</span>
+        <span class="label">Áreas avaliadas</span>
+      </div>
+      <div class="meta-item">
+        <span class="num">~2min</span>
+        <span class="label">Para concluir</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="calculadora">
+    <div class="section-head fade-up">
+      <div class="eyebrow">Diagnóstico</div>
+      <h2>Calculadora de consumo consciente</h2>
+      <p>Selecione a opção que mais se aproxima da sua rotina em cada pergunta. O medidor ao lado se ajusta em tempo real.</p>
+    </div>
+
+    <div class="calc-grid">
+      <div class="calc-card fade-up">
+
+        <div class="question" data-q="1">
+          <span class="q-label">Água · 1 de 6</span>
+          <p class="q-text">Quanto tempo, em média, você passa no banho?</p>
+          <div class="options">
+            <button class="opt" data-score="3">Até 5 minutos</button>
+            <button class="opt" data-score="2">Entre 5 e 10 minutos</button>
+            <button class="opt" data-score="1">Entre 10 e 20 minutos</button>
+            <button class="opt" data-score="0">Mais de 20 minutos</button>
+          </div>
+        </div>
+
+        <div class="question" data-q="2">
+          <span class="q-label">Energia · 2 de 6</span>
+          <p class="q-text">Você costuma desligar luzes e aparelhos eletrônicos quando não está usando?</p>
+          <div class="options">
+            <button class="opt" data-score="3">Sempre</button>
+            <button class="opt" data-score="2">Na maioria das vezes</button>
+            <button class="opt" data-score="1">Às vezes</button>
+            <button class="opt" data-score="0">Raramente</button>
+          </div>
+        </div>
+
+        <div class="question" data-q="3">
+          <span class="q-label">Resíduos · 3 de 6</span>
+          <p class="q-text">Você separa o lixo reciclável (papel, plástico, vidro, metal) do orgânico?</p>
+          <div class="options">
+            <button class="opt" data-score="3">Sim, sempre</button>
+            <button class="opt" data-score="2">Na maior parte do tempo</button>
+            <button class="opt" data-score="1">Só com alguns materiais</button>
+            <button class="opt" data-score="0">Não separo</button>
+          </div>
+        </div>
+
+        <div class="question" data-q="4">
+          <span class="q-label">Consumo · 4 de 6</span>
+          <p class="q-text">Com que frequência você usa sacolas, copos ou talheres de plástico descartável?</p>
+          <div class="options">
+            <button class="opt" data-score="3">Quase nunca, uso reutilizáveis</button>
+            <button class="opt" data-score="2">Poucas vezes por mês</button>
+            <button class="opt" data-score="1">Algumas vezes por semana</button>
+            <button class="opt" data-score="0">Quase todo dia</button>
+          </div>
+        </div>
+
+        <div class="question" data-q="5">
+          <span class="q-label">Consumo · 5 de 6</span>
+          <p class="q-text">Antes de comprar algo novo (roupa, eletrônico, objeto), você pensa se realmente precisa?</p>
+          <div class="options">
+            <button class="opt" data-score="3">Sempre penso bastante</button>
+            <button class="opt" data-score="2">Geralmente sim</button>
+            <button class="opt" data-score="1">Nem sempre</button>
+            <button class="opt" data-score="0">Compro por impulso</button>
+          </div>
+        </div>
+
+        <div class="question" data-q="6">
+          <span class="q-label">Transporte · 6 de 6</span>
+          <p class="q-text">Qual meio de transporte você mais usa no dia a dia?</p>
+          <div class="options">
+            <button class="opt" data-score="3">A pé, bicicleta ou transporte público</button>
+            <button class="opt" data-score="2">Carona compartilhada ou veículo elétrico</button>
+            <button class="opt" data-score="1">Carro/moto particular, sozinho às vezes</button>
+            <button class="opt" data-score="0">Carro particular, sempre sozinho</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="result-panel fade-up">
+        <div class="gauge-wrap">
+          <svg viewBox="0 0 200 200" width="200" height="200">
+            <circle class="gauge-bg" cx="100" cy="100" r="85"></circle>
+            <circle class="gauge-fill" id="gaugeFill" cx="100" cy="100" r="85"
+              stroke="#7CB66B"
+              stroke-dasharray="0 534"></circle>
+          </svg>
+          <div class="gauge-center">
+            <span class="score" id="scoreText">0%</span>
+            <span class="score-label">Consciência</span>
+          </div>
+        </div>
+
+        <div class="result-title" id="resultTitle">Responda para começar</div>
+        <p class="result-desc" id="resultDesc">Suas respostas vão revelar seu perfil de consumo e gerar recomendações personalizadas.</p>
+
+        <ul class="tips-list" id="tipsList"></ul>
+
+        <div class="progress-note" id="progressNote">0 de 6 perguntas respondidas</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="aprenda">
+    <div class="section-head fade-up">
+      <div class="eyebrow">Conteúdo educativo</div>
+      <h2>Pequenas mudanças, impacto real</h2>
+      <p>Clique em cada tema para abrir dicas práticas que você pode aplicar ainda hoje.</p>
+    </div>
+
+    <div class="topics-grid fade-up">
+      <div class="topic-card" data-topic="1">
+        <svg class="topic-icon" viewBox="0 0 24 24" fill="none" stroke="#5FA7BC" stroke-width="1.5"><path d="M12 2C12 2 5 10 5 15a7 7 0 0014 0c0-5-7-13-7-13z"/></svg>
+        <h3>Economia de água</h3>
+        <p>Pequenos hábitos que reduzem litros desperdiçados todos os dias.</p>
+        <div class="topic-detail">
+          Banhos mais curtos (5 min já economizam até 90 litros), fechar a torneira ao escovar os dentes, reaproveitar a água da máquina de lavar para limpeza pesada, e consertar vazamentos rapidamente — uma torneira pingando pode desperdiçar mais de 46 litros por dia.
+        </div>
+        <div class="toggle-hint">Ver dicas</div>
+      </div>
+
+      <div class="topic-card" data-topic="2">
+        <svg class="topic-icon" viewBox="0 0 24 24" fill="none" stroke="#E8A33D" stroke-width="1.5"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+        <h3>Energia elétrica</h3>
+        <p>Reduza o consumo sem perder conforto.</p>
+        <div class="topic-detail">
+          Troque lâmpadas por LED, desligue aparelhos da tomada (modo "stand-by" ainda consome), aproveite a luz natural, e use eletrodomésticos fora do horário de pico. Pequenas trocas no dia a dia geram economia mensal visível na conta.
+        </div>
+        <div class="toggle-hint">Ver dicas</div>
+      </div>
+
+      <div class="topic-card" data-topic="3">
+        <svg class="topic-icon" viewBox="0 0 24 24" fill="none" stroke="#7CB66B" stroke-width="1.5"><path d="M3 6h18M8 6V4a1 1 0 011-1h6a1 1 0 011 1v2m-9 0v14a2 2 0 002 2h6a2 2 0 002-2V6"/></svg>
+        <h3>Reciclagem correta</h3>
+        <p>Separar o lixo certo evita que recicláveis virem aterro.</p>
+        <div class="topic-detail">
+          Lave embalagens antes de descartar, separe por material (papel, plástico, vidro, metal), nunca misture lixo orgânico com reciclável, e descarte pilhas, baterias e eletrônicos em pontos de coleta específicos — nunca no lixo comum.
+        </div>
+        <div class="toggle-hint">Ver dicas</div>
+      </div>
+
+      <div class="topic-card" data-topic="4">
+        <svg class="topic-icon" viewBox="0 0 24 24" fill="none" stroke="#C9694B" stroke-width="1.5"><path d="M12 8v4l3 3M3 12a9 9 0 1018 0 9 9 0 00-18 0z"/></svg>
+        <h3>Redução de plástico</h3>
+        <p>Substituições simples que eliminam toneladas de plástico por ano.</p>
+        <div class="topic-detail">
+          Use garrafas e copos reutilizáveis, leve suas próprias sacolas ao mercado, prefira produtos com menos embalagem, e evite descartáveis em festas e eventos. O plástico de uso único pode levar séculos para se decompor.
+        </div>
+        <div class="toggle-hint">Ver dicas</div>
+      </div>
+
+      <div class="topic-card" data-topic="5">
+        <svg class="topic-icon" viewBox="0 0 24 24" fill="none" stroke="#5FA7BC" stroke-width="1.5"><path d="M20 12V8H6a2 2 0 010-4h14M4 20h16M4 16h16"/></svg>
+        <h3>Consumo consciente</h3>
+        <p>Pensar antes de comprar é o primeiro passo da sustentabilidade.</p>
+        <div class="topic-detail">
+          Pergunte-se: eu realmente preciso disso? Pode durar mais tempo? Existe opção usada ou de segunda mão? Comprar menos e melhor reduz a extração de recursos naturais e a geração de resíduos no planeta.
+        </div>
+        <div class="toggle-hint">Ver dicas</div>
+      </div>
+
+      <div class="topic-card" data-topic="6">
+        <svg class="topic-icon" viewBox="0 0 24 24" fill="none" stroke="#E8A33D" stroke-width="1.5"><path d="M5 17h14M7 17v-5a5 5 0 0110 0v5M9 21h6"/></svg>
+        <h3>Preservação ambiental</h3>
+        <p>Por que cada gesto individual importa para o todo.</p>
+        <div class="topic-detail">
+          A preservação de áreas verdes mantém o equilíbrio climático, protege espécies e garante recursos naturais para as próximas gerações. Plantar árvores, apoiar áreas de conservação e exigir políticas ambientais são formas de ampliar seu impacto além de casa.
+        </div>
+        <div class="toggle-hint">Ver dicas</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sobre">
+    <div class="about-grid">
+      <div class="fade-up">
+        <div class="ods-badge"><span class="num">12.8</span> Meta dos Objetivos de Desenvolvimento Sustentável</div>
+        <h2 style="margin-bottom:18px;">Sobre este projeto</h2>
+        <p>Este site foi desenvolvido como parte de uma <strong>Atividade Extensionista</strong> do curso de Tecnologia da Informação, com o objetivo de aplicar conhecimentos técnicos a uma causa social relevante.</p>
+        <p>A proposta segue a <strong>Meta 12.8 da ONU</strong>: garantir que as pessoas tenham informação relevante e consciência para o desenvolvimento sustentável e estilos de vida em harmonia com a natureza.</p>
+      </div>
+      <div class="fade-up">
+        <blockquote>"A mudança começa quando entendemos o tamanho real do nosso próprio impacto."</blockquote>
+        <p>A calculadora acima não mede números exatos de carbono — ela funciona como um espelho dos seus hábitos, ajudando a identificar pontos de melhoria de forma simples e direta, sem julgamentos.</p>
+        <p>A meta é gerar reflexão e ação: pequenas mudanças individuais, multiplicadas por muitas pessoas, criam impacto coletivo real.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="acao">
+    <h2>Vamos colocar isso em prática?</h2>
+    <p>Compartilhe esta calculadora com sua família, escola ou comunidade. A conscientização cresce quando é compartilhada.</p>
+    <div class="cta-buttons">
+      <button class="btn btn-primary" onclick="document.getElementById('calculadora').scrollIntoView({behavior:'smooth'})">Refazer o diagnóstico</button>
+      <a class="btn btn-secondary" href="#" id="shareBtn">Compartilhar projeto</a>
+    </div>
+  </section>
+
+  <footer>
+    Projeto Educativo de Conscientização Ambiental — Atividade Extensionista · Tecnologia da Informação
+  </footer>
+
+</div>
+
+<script>
+  // ---------- Quiz logic ----------
+  const questions = document.querySelectorAll('.question');
+  const totalQuestions = questions.length;
+  const maxScorePerQ = 3;
+  const maxScore = totalQuestions * maxScorePerQ;
+  let answers = {};
+
+  const gaugeFill = document.getElementById('gaugeFill');
+  const scoreText = document.getElementById('scoreText');
+  const resultTitle = document.getElementById('resultTitle');
+  const resultDesc = document.getElementById('resultDesc');
+  const progressNote = document.getElementById('progressNote');
+  const tipsList = document.getElementById('tipsList');
+
+  const circumference = 2 * Math.PI * 85;
+
+  const profiles = [
+    {
+      max: 0.34,
+      title: "Início de jornada",
+      color: "#C9694B",
+      desc: "Há bastante espaço para reduzir seu impacto. O bom é que pequenas mudanças já fazem grande diferença.",
+      tips: [
+        "Comece reduzindo o tempo de banho gradualmente.",
+        "Separe pelo menos plástico e papel do lixo orgânico.",
+        "Troque uma sacola plástica por uma reutilizável esta semana.",
+        "Antes da próxima compra, espere 24h e reavalie se precisa mesmo."
+      ]
+    },
+    {
+      max: 0.67,
+      title: "Em transição",
+      color: "#E8A33D",
+      desc: "Você já tem bons hábitos, mas ainda há pontos de melhoria importantes.",
+      tips: [
+        "Desligue aparelhos da tomada, não só no botão.",
+        "Leve sua própria garrafa de água no dia a dia.",
+        "Pesquise pontos de coleta de pilhas e eletrônicos na sua cidade.",
+        "Tente uma semana sem nenhum descartável de plástico."
+      ]
+    },
+    {
+      max: 1,
+      title: "Consciência ambiental sólida",
+      color: "#7CB66B",
+      desc: "Excelente! Seus hábitos já estão alinhados com um consumo consciente. Agora o desafio é multiplicar isso.",
+      tips: [
+        "Compartilhe seus hábitos com amigos e família.",
+        "Incentive sua escola ou empresa a adotar coleta seletiva.",
+        "Apoie iniciativas locais de preservação ambiental.",
+        "Continue questionando o consumo antes de comprar — é o hábito mais poderoso."
+      ]
+    }
+  ];
+
+  function updateGauge(){
+    const answered = Object.keys(answers).length;
+    const sum = Object.values(answers).reduce((a,b)=>a+b,0);
+    const pct = answered > 0 ? sum / (answered * maxScorePerQ) : 0;
+
+    progressNote.textContent = `${answered} de ${totalQuestions} perguntas respondidas`;
+
+    const dash = circumference * pct;
+    gaugeFill.style.strokeDasharray = `${dash} ${circumference}`;
+    scoreText.textContent = `${Math.round(pct*100)}%`;
+
+    if(answered === 0){
+      resultTitle.textContent = "Responda para começar";
+      resultDesc.textContent = "Suas respostas vão revelar seu perfil de consumo e gerar recomendações personalizadas.";
+      gaugeFill.setAttribute('stroke', '#7CB66B');
+      tipsList.classList.remove('visible');
+      return;
+    }
+
+    const profile = profiles.find(p => pct <= p.max) || profiles[profiles.length-1];
+    gaugeFill.setAttribute('stroke', profile.color);
+    scoreText.style.color = profile.color;
+
+    if(answered < totalQuestions){
+      resultTitle.textContent = "Continue respondendo...";
+      resultDesc.textContent = `Perfil parcial: ${profile.title.toLowerCase()}. Responda todas as perguntas para o diagnóstico completo.`;
+      tipsList.classList.remove('visible');
+    } else {
+      resultTitle.textContent = profile.title;
+      resultDesc.textContent = profile.desc;
+      tipsList.innerHTML = profile.tips.map(t => `<li>${t}</li>`).join('');
+      tipsList.classList.add('visible');
+    }
+  }
+
+  questions.forEach(q => {
+    const qId = q.dataset.q;
+    q.querySelectorAll('.opt').forEach(btn => {
+      btn.addEventListener('click', () => {
+        q.querySelectorAll('.opt').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        answers[qId] = parseInt(btn.dataset.score, 10);
+        updateGauge();
+      });
+    });
+  });
+
+  // ---------- Topic cards toggle ----------
+  document.querySelectorAll('.topic-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const isOpen = card.classList.contains('open');
+      card.classList.toggle('open');
+      card.querySelector('.toggle-hint').textContent = !isOpen ? 'Fechar' : 'Ver dicas';
+    });
+  });
+
+  // ---------- Share button ----------
+  document.getElementById('shareBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+    const url = window.location.href;
+    if(navigator.share){
+      navigator.share({title: 'Pegada Consciente', text: 'Descubra seu nível de consumo consciente!', url});
+    } else {
+      navigator.clipboard.writeText(url).then(()=>{
+        const btn = e.target;
+        const original = btn.textContent;
+        btn.textContent = 'Link copiado!';
+        setTimeout(()=> btn.textContent = original, 1800);
+      });
+    }
+  });
+
+  // ---------- Scroll fade-in ----------
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('in');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {threshold: 0.15});
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
